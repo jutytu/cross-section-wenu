@@ -25,7 +25,8 @@ print(wenu["Run"].value_counts().to_frame())
 
 # histograms
 
-# using cuts on the eta and pt variables
+# using cuts on the eta and pt variables to differentiate between regions of the detector
+# EB = end barrel, EE = end cap
 EB = wenu[(abs(wenu.eta) < 1.44) & ( wenu.pt > 25)]
 EE = wenu[(abs(wenu.eta) > 1.57) & (abs(wenu.eta) < 2.5) & (wenu.pt > 25)]
 
@@ -91,7 +92,8 @@ plt.ylim(0, 4000)
 plt.savefig('Fig2.png')
 plt.show()
 
-# #Zmienne identyfikacyjne
+# identification variables: cuts on multiple variables to reduce background (mistakenly recorded events
+# from other decays)
 
 cutEB1 = EB[(EB.HoverE < 0.04) & (EB.iTpT < 0.09) & (EB.iEpT < 0.07) & (EB.iHpT < 0.1)]
 cutEB2 = EB[(EB.sigmaEtaEta < 0.01) & (EB.iTpT < 0.09) & (EB.iEpT < 0.07) & (EB.iHpT < 0.1)]
@@ -106,404 +108,406 @@ cutEE4 = EE[(EE.sigmaEtaEta < 0.031) & (EE.HoverE < 0.025) & (EE.iTpT < 0.05) & 
 cutEE5 = EE[(EE.sigmaEtaEta < 0.031) & (EE.HoverE < 0.025) & (EE.iTpT < 0.05) & (EE.iEpT < 0.06)]
 
 
-#
-# figcuts1 = plt.figure(figsize = (10,15))
-#
-# plt.subplot(3, 2, 1)
-# plt.hist(EB.sigmaEtaEta, bins = 100, range = [0, 0.025])
-# plt.xlabel("sigmaEtaEta", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-# plt.ylim(0, 10000)
-#
-# plt.subplot(3, 2, 1)
-# plt.hist(cutEB1.sigmaEtaEta, bins = 100, range = [0, 0.025])
-# plt.xlabel("sigmaEtaEta", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-# plt.ylim(0, 10000)
-#
-# plt.subplot(3, 2, 2)
-# plt.hist(EE.sigmaEtaEta, bins = 100, range = [0, 0.055])
-# plt.xlabel("sigmaEtaEta", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-# plt.ylim(0, 10000)
-#
-# plt.subplot(3, 2, 2)
-# plt.hist(cutEE1.sigmaEtaEta, bins = 100, range = [0, 0.055])
-# plt.xlabel("sigmaEtaEta", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-# plt.ylim(0, 10000)
-#
-#
-#
-# plt.subplot(3, 2, 3)
-# plt.hist(EB.HoverE, bins = 100, range = [0, 0.15])
-# plt.xlabel("HoverE", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-# plt.ylim(0, 1000)
-#
-# plt.subplot(3, 2, 3)
-# plt.hist(cutEB2.HoverE, bins = 100, range = [0, 0.15])
-# plt.xlabel("HoverE", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-# plt.ylim(0, 1000)
-#
-# plt.subplot(3, 2, 4)
-# plt.hist(EE.HoverE, bins = 100, range = [0, 0.15])
-# plt.xlabel("HoverE", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-# plt.ylim(0, 10000)
-#
-# plt.subplot(3, 2, 4)
-# plt.hist(cutEE2.HoverE, bins = 100, range = [0, 0.15])
-# plt.xlabel("HoverE", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-# plt.ylim(0, 10000)
-# plt.savefig('Fig3.png')
-# plt.show()
-#
-#
-# figcuts2 = plt.figure(figsize = (10,15))
-#
-#
-# plt.subplot(3, 2, 1)
-# plt.hist(EB.iTpT, bins = 100, range = [0, 0.5])
-# plt.xlabel("IsoTrack/pt", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-# plt.ylim(0, 10000)
-#
-# plt.subplot(3, 2, 1)
-# plt.hist(cutEB3.iTpT, bins = 100, range = [0, 0.5])
-# plt.xlabel("IsoTrack/pt", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-# plt.ylim(0, 10000)
-#
-# plt.subplot(3, 2, 2)
-# plt.hist(EE.iTpT, bins = 100, range = [0, 0.5])
-# plt.xlabel("IsoTrack/pt", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-# plt.ylim(0, 10000)
-#
-# plt.subplot(3, 2, 2)
-# plt.hist(cutEE3.iTpT, bins = 100, range = [0, 0.5])
-# plt.xlabel("IsoTrack/pt", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-# plt.ylim(0, 10000)
-#
-#
-#
-# plt.subplot(3, 2, 3)
-# plt.hist(EB.iEpT, bins = 100, range = [0, 0.5])
-# plt.xlabel("IsoEcal/pt", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-# plt.ylim(0, 10000)
-#
-# plt.subplot(3, 2, 3)
-# plt.hist(cutEB4.iEpT, bins = 100, range = [0, 0.5])
-# plt.xlabel("IsoEcal/pt", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-# plt.ylim(0, 10000)
-#
-# plt.subplot(3, 2, 4)
-# plt.hist(EE.iEpT, bins = 100, range = [0, 0.5])
-# plt.xlabel("IsoEcal/pt", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-# plt.ylim(0, 10000)
-#
-# plt.subplot(3, 2, 4)
-# plt.hist(cutEE4.iEpT, bins = 100, range = [0, 0.5])
-# plt.xlabel("IsoEcal/pt", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-# plt.ylim(0, 10000)
-#
-#
-# plt.subplot(3, 2, 5)
-# plt.hist(EB.iHpT, bins = 100, range = [0, 0.5])
-# plt.xlabel("IsoHcal/pt", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-# plt.ylim(0, 10000)
-#
-# plt.subplot(3, 2, 5)
-# plt.hist(cutEB5.iHpT, bins = 100, range = [0, 0.5])
-# plt.xlabel("IsoHcal/pt", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-# plt.ylim(0, 10000)
-#
-# plt.subplot(3, 2, 6)
-# plt.hist(EE.iHpT, bins = 100, range = [0, 0.5])
-# plt.xlabel("IsoHcal/pt", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-# plt.ylim(0, 10000)
-#
-# plt.subplot(3, 2, 6)
-# plt.hist(cutEE5.iHpT, bins = 100, range = [0, 0.5])
-# plt.xlabel("IsoHcal/pt", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-# plt.ylim(0, 10000)
-# plt.savefig('Fig4.png')
-# plt.show()
+# histograms (comparing distributions of every variable before and after performing cuts
+# on all the other variables except for the one plotted (EB1/EE1, EB2/EE2...)
 
+figcuts1 = plt.figure(figsize = (10,15))
+
+plt.subplot(3, 2, 1)
+plt.hist(EB.sigmaEtaEta, bins = 100, range = (0, 0.025))
+plt.xlabel("sigmaEtaEta", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+plt.ylim(0, 10000)
+
+plt.subplot(3, 2, 1)
+plt.hist(cutEB1.sigmaEtaEta, bins = 100, range = (0, 0.025))
+plt.xlabel("sigmaEtaEta", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+plt.ylim(0, 10000)
+
+plt.subplot(3, 2, 2)
+plt.hist(EE.sigmaEtaEta, bins = 100, range = (0, 0.055))
+plt.xlabel("sigmaEtaEta", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+plt.ylim(0, 10000)
+
+plt.subplot(3, 2, 2)
+plt.hist(cutEE1.sigmaEtaEta, bins = 100, range = (0, 0.055))
+plt.xlabel("sigmaEtaEta", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+plt.ylim(0, 10000)
+
+
+
+plt.subplot(3, 2, 3)
+plt.hist(EB.HoverE, bins = 100, range = (0, 0.15))
+plt.xlabel("HoverE", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+plt.ylim(0, 1000)
+
+plt.subplot(3, 2, 3)
+plt.hist(cutEB2.HoverE, bins = 100, range = (0, 0.15))
+plt.xlabel("HoverE", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+plt.ylim(0, 1000)
+
+plt.subplot(3, 2, 4)
+plt.hist(EE.HoverE, bins = 100, range = (0, 0.15))
+plt.xlabel("HoverE", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+plt.ylim(0, 10000)
+
+plt.subplot(3, 2, 4)
+plt.hist(cutEE2.HoverE, bins = 100, range = (0, 0.15))
+plt.xlabel("HoverE", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+plt.ylim(0, 10000)
+plt.savefig('Fig3.png')
+plt.show()
+
+
+figcuts2 = plt.figure(figsize = (10,15))
+
+
+plt.subplot(3, 2, 1)
+plt.hist(EB.iTpT, bins = 100, range = (0, 0.5))
+plt.xlabel("IsoTrack/pt", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+plt.ylim(0, 10000)
+
+plt.subplot(3, 2, 1)
+plt.hist(cutEB3.iTpT, bins = 100, range = (0, 0.5))
+plt.xlabel("IsoTrack/pt", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+plt.ylim(0, 10000)
+
+plt.subplot(3, 2, 2)
+plt.hist(EE.iTpT, bins = 100, range = (0, 0.5))
+plt.xlabel("IsoTrack/pt", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+plt.ylim(0, 10000)
+
+plt.subplot(3, 2, 2)
+plt.hist(cutEE3.iTpT, bins = 100, range = (0, 0.5))
+plt.xlabel("IsoTrack/pt", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+plt.ylim(0, 10000)
+
+
+
+plt.subplot(3, 2, 3)
+plt.hist(EB.iEpT, bins = 100, range = (0, 0.5))
+plt.xlabel("IsoEcal/pt", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+plt.ylim(0, 10000)
+
+plt.subplot(3, 2, 3)
+plt.hist(cutEB4.iEpT, bins = 100, range = (0, 0.5))
+plt.xlabel("IsoEcal/pt", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+plt.ylim(0, 10000)
+
+plt.subplot(3, 2, 4)
+plt.hist(EE.iEpT, bins = 100, range = (0, 0.5))
+plt.xlabel("IsoEcal/pt", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+plt.ylim(0, 10000)
+
+plt.subplot(3, 2, 4)
+plt.hist(cutEE4.iEpT, bins = 100, range = (0, 0.5))
+plt.xlabel("IsoEcal/pt", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+plt.ylim(0, 10000)
+
+
+plt.subplot(3, 2, 5)
+plt.hist(EB.iHpT, bins = 100, range = (0, 0.5))
+plt.xlabel("IsoHcal/pt", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+plt.ylim(0, 10000)
+
+plt.subplot(3, 2, 5)
+plt.hist(cutEB5.iHpT, bins = 100, range = (0, 0.5))
+plt.xlabel("IsoHcal/pt", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+plt.ylim(0, 10000)
+
+plt.subplot(3, 2, 6)
+plt.hist(EE.iHpT, bins = 100, range = (0, 0.5))
+plt.xlabel("IsoHcal/pt", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+plt.ylim(0, 10000)
+
+plt.subplot(3, 2, 6)
+plt.hist(cutEE5.iHpT, bins = 100, range = (0, 0.5))
+plt.xlabel("IsoHcal/pt", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+plt.ylim(0, 10000)
+plt.savefig('Fig4.png')
+plt.show()
+
+
+# using all the cuts at once
 EBcut = EB[(EB.sigmaEtaEta < 0.01) & (EB.HoverE < 0.04) & (EB.iTpT < 0.09) & (EB.iEpT < 0.07) & (EB.iHpT < 0.1)]
 EEcut = EE[(EE.sigmaEtaEta < 0.031) & (EE.HoverE < 0.025) & (EE.iTpT < 0.05) & (EE.iEpT < 0.06) & (EE.iHpT < 0.025)]
-
+# the events outside of cut ranges are considered background events
 EBbg = EB[(EB.sigmaEtaEta > 0.01) | (EB.HoverE > 0.04) | (EB.iTpT > 0.09) | (EB.iEpT > 0.07) | (EB.iHpT > 0.1)]
 EEbg = EE[(EE.sigmaEtaEta > 0.031) | (EE.HoverE > 0.025) | (EE.iTpT > 0.05) | (EE.iEpT > 0.06) | (EE.iHpT > 0.025)]
 
 
-# figfinal = plt.figure(figsize = (10,15))
-#
-# plt.subplot(4, 2, 1)
-# plt.xlim(0,200)
-# plt.hist(EB.pt, bins = 170)
-# plt.xlabel("pt [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-#
-# plt.subplot(4, 2, 1)
-# plt.xlim(0,200)
-# plt.hist(EBcut.pt, bins = 125)
-# plt.xlabel("pt [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-#
-# plt.subplot(4, 2, 2)
-# plt.hist(EB.pt, bins = 50)
-# plt.xlabel("pt [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-#
-#
-# plt.subplot(4, 2, 2)
-# plt.hist(EBcut.pt, bins = 50)
-# plt.xlabel("pt [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-#
-#
-#
-# plt.subplot(4, 2, 3)
-# plt.hist(EB.eta, bins = 50)
-# plt.xlabel("eta", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-#
-# plt.subplot(4, 2, 3)
-# plt.hist(EBcut.eta, bins = 50)
-# plt.xlabel("eta", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-#
-# plt.subplot(4, 2, 4)
-# plt.hist(EB.eta, bins = 50)
-# plt.xlabel("eta", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-#
-# plt.subplot(4, 2, 4)
-# plt.hist(EBcut.eta, bins = 50)
-# plt.xlabel("eta", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-#
-# plt.subplot(4, 2, 4)
-# plt.hist(EB.MET, bins = 50, range = [-1.5, 1.5])
-# plt.xlabel("eta", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-#
-#
-#
-# plt.subplot(4, 2, 5)
-# plt.xlim(0,100)
-# plt.hist(EB.MET, bins = 150)
-# plt.xlabel("MET [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-#
-# plt.subplot(4, 2, 5)
-# plt.xlim(0,100)
-# plt.hist(EBcut.MET, bins = 150)
-# plt.xlabel("MET [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-#
-# plt.subplot(4, 2, 6)
-# plt.hist(EB.MET, bins = 50)
-# plt.xlabel("MET [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-#
-# plt.subplot(4, 2, 6)
-# plt.hist(EBcut.MET, bins = 50)
-# plt.xlabel("MET [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-#
-#
-# plt.subplot(4, 2, 7)
-# plt.xlim(0,200)
-# plt.hist(EB.mt, bins = 125)
-# plt.xlabel("mt [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-#
-# plt.subplot(4, 2, 7)
-# plt.xlim(0,200)
-# plt.hist(EBcut.mt, bins = 85)
-# plt.xlabel("mt [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-#
-# plt.subplot(4, 2, 8)
-# plt.hist(EB.mt, bins = 50)
-# plt.xlabel("mt [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-#
-# plt.subplot(4, 2, 8)
-# plt.hist(EBcut.mt, bins = 50)
-# plt.xlabel("mt [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-#
-# plt.savefig('Fig5.png')
-# plt.show()
-#
-#
-# ###############################
-#
-# figfinal2 = plt.figure(figsize = (10,15))
-#
-# plt.subplot(4, 2, 1)
-# plt.xlim(0,200)
-# plt.hist(EE.pt, bins = 150)
-# plt.xlabel("pt [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-#
-# plt.subplot(4, 2, 1)
-# plt.xlim(0,200)
-# plt.hist(EEcut.pt, bins = 150)
-# plt.xlabel("pt [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-#
-# plt.subplot(4, 2, 2)
-# plt.xlim(0,400)
-# plt.hist(EE.pt, bins = 80)
-# plt.xlabel("pt [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-#
-#
-# plt.subplot(4, 2, 2)
-# plt.xlim(0,400)
-# plt.hist(EEcut.pt, bins = 80)
-# plt.xlabel("pt [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-#
-#
-#
-# plt.subplot(4, 2, 3)
-# plt.hist(EE.eta, bins = 50)
-# plt.xlabel("eta", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-#
-# plt.subplot(4, 2, 3)
-# plt.hist(EEcut.eta, bins = 50)
-# plt.xlabel("eta", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-#
-# plt.subplot(4, 2, 4)
-# plt.hist(EE.eta, bins = 50)
-# plt.xlabel("eta", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-#
-# plt.subplot(4, 2, 4)
-# plt.hist(EEcut.eta, bins = 50)
-# plt.xlabel("eta", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-#
-#
-#
-# plt.subplot(4, 2, 5)
-# plt.xlim(0,100)
-# plt.hist(EE.MET, bins = 100)
-# plt.xlabel("MET [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-#
-# plt.subplot(4, 2, 5)
-# plt.xlim(0,100)
-# plt.hist(EEcut.MET, bins = 100)
-# plt.xlabel("MET [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-#
-# plt.subplot(4, 2, 6)
-# plt.hist(EE.MET, bins = 50)
-# plt.xlabel("MET [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-#
-# plt.subplot(4, 2, 6)
-# plt.hist(EEcut.MET, bins = 50)
-# plt.xlabel("MET [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-#
-#
-# plt.subplot(4, 2, 7)
-# plt.xlim(0,200)
-# plt.hist(EE.mt, bins = 125)
-# plt.xlabel("mt [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-#
-# plt.subplot(4, 2, 7)
-# plt.xlim(0,200)
-# plt.hist(EEcut.mt, bins = 125)
-# plt.xlabel("mt [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-#
-# plt.subplot(4, 2, 8)
-# plt.xlim(0,300)
-# plt.hist(EE.mt, bins = 85)
-# plt.xlabel("mt [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-#
-# plt.subplot(4, 2, 8)
-# plt.xlim(0,300)
-# plt.hist(EEcut.mt, bins = 85)
-# plt.xlabel("mt [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.yscale('log')
-#
-# plt.savefig('Fig6.png')
-# plt.show()
+# before and after distributions for the EB region
+figfinal = plt.figure(figsize = (10,15))
 
-#
-#
-#
-#
+plt.subplot(4, 2, 1)
+plt.xlim(0,200)
+plt.hist(EB.pt, bins = 170)
+plt.xlabel("pt [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
 
+plt.subplot(4, 2, 1)
+plt.xlim(0,200)
+plt.hist(EBcut.pt, bins = 125)
+plt.xlabel("pt [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+
+plt.subplot(4, 2, 2)
+plt.hist(EB.pt, bins = 50)
+plt.xlabel("pt [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+
+
+plt.subplot(4, 2, 2)
+plt.hist(EBcut.pt, bins = 50)
+plt.xlabel("pt [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+
+
+plt.subplot(4, 2, 3)
+plt.hist(EB.eta, bins = 50)
+plt.xlabel("eta", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+
+plt.subplot(4, 2, 3)
+plt.hist(EBcut.eta, bins = 50)
+plt.xlabel("eta", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+
+plt.subplot(4, 2, 4)
+plt.hist(EB.eta, bins = 50)
+plt.xlabel("eta", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+
+plt.subplot(4, 2, 4)
+plt.hist(EBcut.eta, bins = 50)
+plt.xlabel("eta", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+
+plt.subplot(4, 2, 4)
+plt.hist(EB.MET, bins = 50, range = [-1.5, 1.5])
+plt.xlabel("eta", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+
+
+
+plt.subplot(4, 2, 5)
+plt.xlim(0,100)
+plt.hist(EB.MET, bins = 150)
+plt.xlabel("MET [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+
+plt.subplot(4, 2, 5)
+plt.xlim(0,100)
+plt.hist(EBcut.MET, bins = 150)
+plt.xlabel("MET [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+
+plt.subplot(4, 2, 6)
+plt.hist(EB.MET, bins = 50)
+plt.xlabel("MET [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+
+plt.subplot(4, 2, 6)
+plt.hist(EBcut.MET, bins = 50)
+plt.xlabel("MET [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+
+
+plt.subplot(4, 2, 7)
+plt.xlim(0,200)
+plt.hist(EB.mt, bins = 125)
+plt.xlabel("mt [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+
+plt.subplot(4, 2, 7)
+plt.xlim(0,200)
+plt.hist(EBcut.mt, bins = 85)
+plt.xlabel("mt [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+
+plt.subplot(4, 2, 8)
+plt.hist(EB.mt, bins = 50)
+plt.xlabel("mt [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+
+plt.subplot(4, 2, 8)
+plt.hist(EBcut.mt, bins = 50)
+plt.xlabel("mt [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+
+plt.savefig('Fig5.png')
+plt.show()
+
+
+# before and after distributions for the EE region
+
+figfinal2 = plt.figure(figsize = (10,15))
+
+plt.subplot(4, 2, 1)
+plt.xlim(0,200)
+plt.hist(EE.pt, bins = 150)
+plt.xlabel("pt [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+
+plt.subplot(4, 2, 1)
+plt.xlim(0,200)
+plt.hist(EEcut.pt, bins = 150)
+plt.xlabel("pt [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+
+plt.subplot(4, 2, 2)
+plt.xlim(0,400)
+plt.hist(EE.pt, bins = 80)
+plt.xlabel("pt [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+
+
+plt.subplot(4, 2, 2)
+plt.xlim(0,400)
+plt.hist(EEcut.pt, bins = 80)
+plt.xlabel("pt [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+
+
+
+plt.subplot(4, 2, 3)
+plt.hist(EE.eta, bins = 50)
+plt.xlabel("eta", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+
+plt.subplot(4, 2, 3)
+plt.hist(EEcut.eta, bins = 50)
+plt.xlabel("eta", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+
+plt.subplot(4, 2, 4)
+plt.hist(EE.eta, bins = 50)
+plt.xlabel("eta", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+
+plt.subplot(4, 2, 4)
+plt.hist(EEcut.eta, bins = 50)
+plt.xlabel("eta", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+
+
+
+plt.subplot(4, 2, 5)
+plt.xlim(0,100)
+plt.hist(EE.MET, bins = 100)
+plt.xlabel("MET [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+
+plt.subplot(4, 2, 5)
+plt.xlim(0,100)
+plt.hist(EEcut.MET, bins = 100)
+plt.xlabel("MET [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+
+plt.subplot(4, 2, 6)
+plt.hist(EE.MET, bins = 50)
+plt.xlabel("MET [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+
+plt.subplot(4, 2, 6)
+plt.hist(EEcut.MET, bins = 50)
+plt.xlabel("MET [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+
+
+plt.subplot(4, 2, 7)
+plt.xlim(0,200)
+plt.hist(EE.mt, bins = 125)
+plt.xlabel("mt [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+
+plt.subplot(4, 2, 7)
+plt.xlim(0,200)
+plt.hist(EEcut.mt, bins = 125)
+plt.xlabel("mt [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+
+plt.subplot(4, 2, 8)
+plt.xlim(0,300)
+plt.hist(EE.mt, bins = 85)
+plt.xlabel("mt [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+
+plt.subplot(4, 2, 8)
+plt.xlim(0,300)
+plt.hist(EEcut.mt, bins = 85)
+plt.xlabel("mt [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.yscale('log')
+
+plt.savefig('Fig6.png')
+plt.show()
+
+
+# acceptance: events after cuts / events before cuts
 print(len(EBcut))
 print(len(EEcut))
-print("Akceptancja EB {:}".format(len(EBcut)/len(EB)))
-print("Akceptancja EE: {:}".format(len(EEcut)/len(EE)))
+print("Acceptance EB {:}".format(len(EBcut)/len(EB)))
+print("Acceptance EE: {:}".format(len(EEcut)/len(EE)))
 
-# print("Akceptancja całej reszty do cięć na odwrót EB {:}".format(len(EBbg)/len(EB)))
-# print("Akceptancja całej reszty do cięć na odwrót EE {:}".format(len(EEbg)/len(EE)))
+# background acceptance
+print("Akceptancja całej reszty do cięć na odwrót EB {:}".format(len(EBbg)/len(EB)))
+print("Akceptancja całej reszty do cięć na odwrót EE {:}".format(len(EEbg)/len(EE)))
 
 
 ####################
