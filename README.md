@@ -10,4 +10,4 @@ The analysis was part of my annual assignment during my second year of undergrad
 The data file consists of recorded events along with their physical quantities described on the website where it can be downloaded (the link above).
 
 ### References
-This whole analysis was based by an article published by the CMS group: [http://arxiv.org/pdf/1107.4789](http://arxiv.org/pdf/1107.4789).
+This whole analysis was based on an article published by the CMS group: [http://arxiv.org/pdf/1107.4789](http://arxiv.org/pdf/1107.4789).
