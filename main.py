@@ -510,7 +510,12 @@ print("Akceptancja całej reszty do cięć na odwrót EB {:}".format(len(EBbg)/l
 print("Akceptancja całej reszty do cięć na odwrót EE {:}".format(len(EEbg)/len(EE)))
 
 
-####################
+# distributions of background against all the events: scaling the background distribution so that
+# its MET extremes overlap with the overall distribution (we assume the background shape is correct
+# but the extreme MET values should be all background) - we use the scaling factor to calculate
+# the number of background events
+
+# EB
 
 figfinalEBbg = plt.figure(figsize = (10,10))
 
@@ -557,9 +562,6 @@ data = np.random.normal(50, 20, 10000)
 (counts, bins) = np.histogram(EBbg.MET, bins=100)
 factor = 0.22
 plt.hist(bins[:-1], bins, weights=factor*counts)
-
-
-
 
 
 plt.subplot(2, 2, 3)
@@ -609,7 +611,7 @@ plt.hist(bins[:-1], bins, weights=factor*counts)
 plt.savefig('Fig7.png')
 plt.show()
 
-######################
+# EE
 
 figfinalEEbg = plt.figure(figsize = (10,10))
 
@@ -656,9 +658,6 @@ data = np.random.normal(50, 20, 10000)
 (counts, bins) = np.histogram(EEbg.MET, bins=100)
 factor = 0.27
 plt.hist(bins[:-1], bins, weights=factor*counts)
-
-
-
 
 
 plt.subplot(2, 2, 3)
@@ -708,7 +707,7 @@ plt.hist(bins[:-1], bins, weights=factor*counts)
 plt.savefig('Fig8.png')
 plt.show()
 
-#############
+# we remove the extreme MET and mt values from both background and accepted events
 
 EBscut = EBcut[(EBcut.mt > 50) & (EBcut.MET > 25)]
 EEscut = EEcut[(EEcut.mt > 50) & (EEcut.MET > 25)]
@@ -720,18 +719,18 @@ EEsbg = EEbg[(EEbg.mt > 50) & (EEbg.MET > 25)]
 print(len(EBscut))
 print(len(EEscut))
 
-print("Tlo po cieciach EB:", len(EBsbg))
+print("Background after cuts EB:", len(EBsbg))
 print("EE: ", len(EEsbg))
 
-print("eb finalne: ", len(EBscut) - math.ceil(len(EBsbg)*0.22))
-print("ee finalne: ", len(EEscut) - math.ceil(len(EEsbg)*0.25))
+print("EB events no background: ", len(EBscut) - math.ceil(len(EBsbg)*0.22))
+print("EE: ", len(EEscut) - math.ceil(len(EEsbg)*0.25))
 
+# calculating the cross section - calculating a few extra variables according to instructions from the article
 eps_av = (len(EBscut)*0.798+len(EEscut)*0.67)/(len(EBscut)+len(EEscut))
 print(eps_av)
 
 Neb = len(EBscut) - math.ceil(len(EBsbg)*0.22)
 Nee = len(EEscut) - math.ceil(len(EEsbg)*0.25)
-
 
 print(Neb, Nee)
 
@@ -743,14 +742,15 @@ sigma = Np/36000
 sigmaerr = 234/36000
 
 print("cs: ", sigma, "nb +- ", sigmaerr)
-
 print("-----")
 
+# charge imbalance
 print(len(EB[EB.Q==1]), len(EB[EB.Q==-1]))
 print(len(EE[EE.Q==1]), len(EE[EE.Q==-1]))
 
 print("-----")
 
+# all the acceptances
 print(len(cutEB1)/len(EB))
 print(len(cutEB2)/len(EB))
 print(len(cutEB3)/len(EB))
@@ -765,6 +765,7 @@ print(len(cutEE4)/len(EE))
 print(len(cutEE5)/len(EE))
 print(len(EEcut)/len(EE))
 
+# plotting rescaled backgrounds
 figfinalEBbg2 = plt.figure(figsize = (10,10))
 
 plt.subplot(2, 2, 1)
