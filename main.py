@@ -3,88 +3,93 @@ import pandas as pd
 import numpy as np
 import math
 
-urlw = "http://opendata.cern.ch/record/545/files/Wenu.csv"
-wenu = pd.read_csv(r'C:\Users\Ja\Downloads\Wenu.csv')
+# loading the data from the CERN website
+url = "http://opendata.cern.ch/record/545/files/Wenu.csv"
+wenu = pd.read_csv(url)
+
+# adding iso variables
 wenu["iTpT"] = wenu["isoTrack"]/wenu["pt"]
 wenu["iEpT"] = wenu["isoEcal"]/wenu["pt"]
 wenu["iHpT"] = wenu["isoHcal"]/wenu["pt"]
 wenu["mt"] = np.sqrt(2 * wenu["pt"]* wenu["MET"]*(1 - np.cos( wenu['phi'] - wenu['phiMET'])))
 print(wenu.describe().to_string())
-# print(wenu.head().to_string())
-# print("Wenu zmienne: " + str(list(wenu.columns)))
-# print("Liczba przypadków: " + str(wenu.shape[0]))
-# print("\n")
-# print(wenu["Run"].value_counts().to_frame())
+print(wenu.head().to_string())
+# listing the columns (variables)
+print("Wenu variables: " + str(list(wenu.columns)))
+print("Number of events: " + str(wenu.shape[0]))
+print("\n")
+# number of accelerator runs from which the data was collected
+print(wenu["Run"].value_counts().to_frame())
 
 
 
-#Histogramy
+# histograms
 
+# using cuts on the eta and pt variables
 EB = wenu[(abs(wenu.eta) < 1.44) & ( wenu.pt > 25)]
 EE = wenu[(abs(wenu.eta) > 1.57) & (abs(wenu.eta) < 2.5) & (wenu.pt > 25)]
 
-#
-# print(EB.describe().to_string())
-# print(EE.describe().to_string())
-# #
-# figEB = plt.figure(figsize = (10,15))
-#
-# plt.subplot(3, 2, 2)
-# plt.hist(EB.eta, bins = 50, range = [-1.5, 1.5])
-# plt.xlabel("eta", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.ylim(0, 2000)
-#
-# plt.subplot(3, 2, 1)
-# plt.hist(EB.pt, bins = 50, range = [20, 100])
-# plt.xlabel("electron pt [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.ylim(0, 5000)
-#
-# plt.subplot(3, 2, 3)
-# plt.hist(EB.Q, bins = 3, range = [-1, 1])
-# plt.xlabel("charge", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.ylim(0, 30000)
-# plt.xticks([-1, 0, 1])
-#
-# plt.subplot(3, 2, 4)
-# plt.hist(EB.MET, bins = 50, range = [0, 100])
-# plt.xlabel("MET [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.ylim(0, 4000)
-# plt.savefig('Fig1.png')
-# plt.show()
-#
-#
-# figEE = plt.figure(figsize = (10,15))
-#
-# plt.subplot(3, 2, 1)
-# plt.hist(EE.pt, bins = 50, range = [20, 100])
-# plt.xlabel("electron pt [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.ylim(0, 5000)
-#
-# plt.subplot(3, 2, 2)
-# plt.hist(EE.eta, bins = 50, range = [-3, 3])
-# plt.xlabel("eta", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.ylim(0, 4000)
-#
-# plt.subplot(3, 2, 3)
-# plt.hist(EE.Q, bins = 3, range = [-1, 1])
-# plt.xlabel("charge", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.ylim(0, 30000)
-# plt.xticks([-1, 0, 1])
-#
-# plt.subplot(3, 2, 4)
-# plt.hist(EE.MET, bins = 50, range = [0, 100])
-# plt.xlabel("MET [GeV]", fontsize = 15)
-# plt.ylabel("events", fontsize = 15)
-# plt.ylim(0, 4000)
-# plt.savefig('Fig2.png')
-# plt.show()
+print(EB.describe().to_string())
+print(EE.describe().to_string())
+
+figEB = plt.figure(figsize = (10,15))
+
+plt.subplot(3, 2, 2)
+plt.hist(EB.eta, bins = 50, range = [-1.5, 1.5])
+plt.xlabel("eta", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.ylim(0, 2000)
+
+plt.subplot(3, 2, 1)
+plt.hist(EB.pt, bins = 50, range = [20, 100])
+plt.xlabel("electron pt [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.ylim(0, 5000)
+
+plt.subplot(3, 2, 3)
+plt.hist(EB.Q, bins = 3, range = [-1, 1])
+plt.xlabel("charge", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.ylim(0, 30000)
+plt.xticks([-1, 0, 1])
+
+plt.subplot(3, 2, 4)
+plt.hist(EB.MET, bins = 50, range = [0, 100])
+plt.xlabel("MET [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.ylim(0, 4000)
+plt.savefig('Fig1.png')
+plt.show()
+
+
+figEE = plt.figure(figsize = (10,15))
+
+plt.subplot(3, 2, 1)
+plt.hist(EE.pt, bins = 50, range = [20, 100])
+plt.xlabel("electron pt [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.ylim(0, 5000)
+
+plt.subplot(3, 2, 2)
+plt.hist(EE.eta, bins = 50, range = [-3, 3])
+plt.xlabel("eta", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.ylim(0, 4000)
+
+plt.subplot(3, 2, 3)
+plt.hist(EE.Q, bins = 3, range = [-1, 1])
+plt.xlabel("charge", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.ylim(0, 30000)
+plt.xticks([-1, 0, 1])
+
+plt.subplot(3, 2, 4)
+plt.hist(EE.MET, bins = 50, range = [0, 100])
+plt.xlabel("MET [GeV]", fontsize = 15)
+plt.ylabel("events", fontsize = 15)
+plt.ylim(0, 4000)
+plt.savefig('Fig2.png')
+plt.show()
 
 # #Zmienne identyfikacyjne
 
